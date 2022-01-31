@@ -14,6 +14,13 @@ RUN chmod u=rwX,g=srX,o=rX -R /var/www/html/src/
 RUN find /var/www/html/src/ -type d -exec chmod g=rwxs "{}" \;
 RUN find /var/www/html/src/ -type f -exec chmod g=rws "{}" \;
 
+# Enable apache mod_rewrite
+RUN a2enmod rewrite
+RUN a2enmod actions
+
+# Start the webserver
+RUN service apache2 restart
+
 EXPOSE 80
 
 ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
